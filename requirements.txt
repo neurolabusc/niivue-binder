@@ -1,0 +1,8 @@
+ipyniivue
+notebook
+jupyterlab
+ipywidgets
+voila
+nbconvert
+matplotlib
+numpy
