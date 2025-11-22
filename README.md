@@ -1,6 +1,6 @@
 # niivue-binder
 
-niivue-binder
+ipyniivue provides interactive visualization of medical volumes, meshes, streamlines, and connectomes in Jupyter. This repository includes recipes for [ipyniivue](https://github.com/niivue/ipyniivue) that can be run on the cloud using [mybinder]((https://mybinder.org/v2/gh/neurolabusc/niivue-binder/HEAD?urlpath=lab/tree/notebooks/basic.ipynb)) locally from a jupyter notebook. See the [ipyniivue documentation](https://niivue.github.io/ipyniivue/) for more features.
 
 # Usage
 
