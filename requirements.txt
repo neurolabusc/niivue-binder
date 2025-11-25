@@ -1,4 +1,4 @@
-ipyniivue
+ipyniivue>=2.4.2
 notebook
 jupyterlab
 ipywidgets

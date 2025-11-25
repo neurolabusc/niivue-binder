@@ -16,8 +16,8 @@ You can work locally:
 git clone https://github.com/neurolabusc/niivue-binder
 cd niivue-binder
 pip install -r requirements.txt
-jupyter lab 
-# open basic.ipynb notebook
+jupyter lab ./notebooks/basic.ipynb
+# press the 'run' button for the basic.ipynb notebook
 ```
 
 # Committing
