@@ -6,3 +6,4 @@ voila
 nbconvert
 matplotlib
 numpy
+pre-commit
