@@ -26,7 +26,7 @@ nv.load_volumes([{'path': './images/mni152.nii.gz'}])
 nv
 ```
 
-# Usage: local and development
+# Usage: Local
 
 You can work locally, and this typically provides optimal performance. However, this does require considerable disk space:
 
@@ -38,11 +38,21 @@ jupyter lab ./notebooks/basic.ipynb
 # press the 'run' button for the basic.ipynb notebook
 ```
 
-# Committing
+# Development
 
-Jupyter notebooks cache a lot of meta data with each run. In addition, we try to keep the style of notebook scripts similar. Therefore, the following commands can clean up the notebooks if you wish to make a contribution to this repository:
+## Setup
 
 ```bash
-python ./normalize_notebooks.py ./notebooks
-python -m ruff check ./notebooks/*.ipynb --fix
+git clone https://github.com/neurolabusc/niivue-binder
+cd niivue-binder
+pip install -r requirements.txt
+pre-commit install
+```
+
+## Code Quality
+
+Pre-commit hooks automate code style and strip notebook outputs and metadata for cleaner commits. They run upon committing changes or manually with:
+
+```bash
+pre-commit run --all-files
 ```
