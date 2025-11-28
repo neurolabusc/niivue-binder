@@ -15,7 +15,7 @@ from scipy.ndimage import (
     distance_transform_edt
 )
 import numpy as np
-import scipy.stats as st
+import warnings
 import os
 import sys
 import math
@@ -87,7 +87,6 @@ def _smooth_array(arr, affine, fwhm=None, ensure_finite=True, copy=True):
     affine : :class:`numpy.ndarray`
         (4, 4) matrix, giving affine transformation for image. (3, 3) matrices
         are also accepted (only these coefficients are used).
-        If `fwhm='fast'`, the affine is not used and can be None.
 
     fwhm : scalar, :class:`numpy.ndarray`/:obj:`tuple`/:obj:`list`, 'fast' or None, optional
         Smoothing strength, as a full-width at half maximum, in millimeters.
@@ -138,13 +137,11 @@ def _smooth_array(arr, affine, fwhm=None, ensure_finite=True, copy=True):
     if ensure_finite:
         # SPM tends to put NaNs in the data outside the brain
         arr[np.logical_not(np.isfinite(arr))] = 0
-    if isinstance(fwhm, str) and (fwhm == 'fast'):
-        arr = _fast_smooth_array(arr)
-    elif fwhm is not None:
+    if fwhm is not None:
         fwhm = np.asarray([fwhm]).ravel()
         fwhm = np.asarray([0. if elem is None else elem for elem in fwhm])
         affine = affine[:3, :3]  # Keep only the scale part.
-        fwhm_over_sigma_ratio = np.sqrt(8 * np.log(2))  # FWHM to sigma.
+        # fwhm_over_sigma_ratio = np.sqrt(8 * np.log(2))  # FWHM to sigma.
         vox_size = np.sqrt(np.sum(affine ** 2, axis=0))
         #n.b. FSL specifies blur in sigma, SPM in FWHM
         # FWHM = sigma*sqrt(8*ln(2)) = sigma*2.3548.
