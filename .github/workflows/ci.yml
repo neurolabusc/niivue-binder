@@ -13,24 +13,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - uses: prefix-dev/setup-pixi@v0.8.1
         with:
-          python-version: "3.11"
-
-      - name: Install pre-commit
-        run: pip install pre-commit
+          pixi-version: latest
 
       - name: Run pre-commit
-        run: pre-commit run --all-files
+        run: pixi run pre-commit run --all-files
 
-  test-notebooks:
-    name: Execute notebooks
+  test-pixi:
+    name: Test pixi install (local dev)
     runs-on: ubuntu-latest
     needs: pre-commit
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Needed to get git history for diff
+          fetch-depth: 0
 
       - name: Get changed notebook files
         id: changed-notebooks
@@ -39,17 +36,51 @@ jobs:
           files: |
             notebooks/*.ipynb
 
-      - uses: actions/setup-python@v5
+      - uses: prefix-dev/setup-pixi@v0.8.1
         if: steps.changed-notebooks.outputs.any_changed == 'true'
         with:
-          python-version: "3.10"
-
-      - name: Install dependencies
-        if: steps.changed-notebooks.outputs.any_changed == 'true'
-        run: pip install -r requirements.txt
+          pixi-version: latest
 
       - name: Execute changed notebooks
         if: steps.changed-notebooks.outputs.any_changed == 'true'
         run: |
           echo "Changed notebooks: ${{ steps.changed-notebooks.outputs.all_changed_files }}"
-          jupyter execute ${{ steps.changed-notebooks.outputs.all_changed_files }}
+          pixi run jupyter execute ${{ steps.changed-notebooks.outputs.all_changed_files }}
+
+  test-binder:
+    name: Test Binder (environment.yml)
+    runs-on: ubuntu-latest
+    needs: pre-commit
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          environment-file: environment.yml
+          activate-environment: default
+          auto-activate-base: false
+
+      - name: Verify environment
+        shell: bash -el {0}
+        run: |
+          python --version
+          python -c "import ipyniivue; print(f'ipyniivue {ipyniivue.__version__} OK')"
+
+  test-colab:
+    name: Test Colab (pip install .)
+    runs-on: ubuntu-latest
+    needs: pre-commit
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install from pyproject.toml
+        run: pip install .
+
+      - name: Verify install
+        run: |
+          python --version
+          python -c "import ipyniivue; print(f'ipyniivue {ipyniivue.__version__} OK')"
