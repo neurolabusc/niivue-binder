@@ -1,0 +1,16 @@
+name: binder
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - scipy>=1.16.3,<2           # now compatible with python=3.11
+  - scikit-image>=0.25.2,<0.26
+  - nibabel>=5.3.2,<6
+  - pip
+  - pip:
+    - ipyniivue>=2.4.2
+    - notebook
+    - jupyterlab
+    - ipywidgets
+    - pre-commit
