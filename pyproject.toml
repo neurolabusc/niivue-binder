@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "niivue-binder"
+version = "0.1.0"
+description = "Interactive visualization of medical images in Jupyter notebooks"
+requires-python = ">=3.10"
+# pip installable dependencies for colab and local system users
+dependencies = [
+    # Core visualization
+    "ipyniivue>=2.4.2",
+    # Scientific computing
+    "matplotlib",
+    "nibabel",
+    "scikit-image",
+    "scipy",
+    # Notebook environment
+    "jupyterlab",
+    "nbconvert",
+    "notebook",
+    "voila",
+]
+
+# replicate dependencies from above that can be provided by conda and add dev dependencies
+[tool.pixi.dependencies]
+python = ">=3.10"
+# Dev tools
+jupyter-repo2docker = "*"
+pre-commit = "*"
+# Core deps from conda (faster than pip)
+jupyterlab = "*"
+matplotlib = "*"
+nbconvert = "*"
+nibabel = "*"
+notebook = "*"
+scikit-image = "*"
+scipy = "*"
+voila = "*"
+
+
+[tool.setuptools]
+py-modules = []  # No actual Python code, just dependencies
+
+[tool.pixi.project]
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
+
+

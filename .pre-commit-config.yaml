@@ -13,3 +13,12 @@ repos:
       - id: ruff
         args: [--fix]
         types_or: [python, jupyter]
+
+  - repo: local
+    hooks:
+      - id: export-environment
+        name: Export pyproject.toml to environment.yml for Binder
+        entry: .pre-commit-scripts/export-environment.sh
+        language: system
+        files: ^pyproject\.toml$
+        pass_filenames: false
