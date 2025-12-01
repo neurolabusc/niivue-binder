@@ -45,7 +45,7 @@ jupyter lab ./notebooks/basic.ipynb
 ```bash
 git clone https://github.com/neurolabusc/niivue-binder
 cd niivue-binder
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 pre-commit install
 ```
 

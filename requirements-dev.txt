@@ -1,0 +1,6 @@
+-r requirements.txt
+pre-commit
+nbstripout
+black
+ruff
+pytest
