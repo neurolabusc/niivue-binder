@@ -97,3 +97,26 @@ Execute notebooks to verify they work:
 ```bash
 pixi run jupyter execute notebooks/*.ipynb
 ```
+
+### Testing Binder Locally
+
+To test the exact environment that Binder will build, use [repo2docker](https://github.com/jupyterhub/repo2docker):
+
+```bash
+# Build and run the Binder container
+pixi run repo2docker .
+```
+
+This builds a Docker container from `environment.yml` using the same process Binder uses. Once built, it opens JupyterLab in your browser.
+
+**Useful options:**
+
+```bash
+# Build without running (just test the build)
+pixi run repo2docker --no-run .
+
+# Build with a specific image name
+pixi run repo2docker --image-name niivue-binder .
+```
+
+> **Note:** repo2docker requires Docker to be installed and running.

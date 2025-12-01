@@ -54,11 +54,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: conda-incubator/setup-miniconda@v3
+      - uses: mamba-org/setup-micromamba@v2
         with:
           environment-file: environment.yml
-          activate-environment: default
-          auto-activate-base: false
+          environment-name: test-env
+          init-shell: bash
+          cache-environment: true
 
       - name: Verify environment
         shell: bash -el {0}

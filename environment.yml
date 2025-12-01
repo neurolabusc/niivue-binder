@@ -7,23 +7,24 @@ channels:
 - nodefaults
 dependencies:
 - python >=3.10
-- notebook *
-- jupyterlab *
-- voila *
-- nbconvert *
+- jupyter-repo2docker *
 - pre-commit *
-- nibabel *
-- scipy *
-- scikit-image *
+- jupyterlab *
 - matplotlib *
+- nbconvert *
+- nibabel *
+- notebook *
+- scikit-image *
+- scipy *
+- voila *
 - pip
 - pip:
   - ipyniivue>=2.4.2
-  - nibabel
-  - scipy
-  - scikit-image
   - matplotlib
-  - notebook
+  - nibabel
+  - scikit-image
+  - scipy
   - jupyterlab
-  - voila
   - nbconvert
+  - notebook
+  - voila
