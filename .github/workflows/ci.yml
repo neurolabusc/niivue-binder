@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  pre-commit:
+    name: Pre-commit checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pre-commit
+        run: pip install pre-commit
+
+      - name: Run pre-commit
+        run: pre-commit run --all-files
+
+  test-notebooks:
+    name: Execute notebooks
+    runs-on: ubuntu-latest
+    needs: pre-commit
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Needed to get git history for diff
+
+      - name: Get changed notebook files
+        id: changed-notebooks
+        uses: tj-actions/changed-files@v45
+        with:
+          files: |
+            notebooks/*.ipynb
+
+      - uses: actions/setup-python@v5
+        if: steps.changed-notebooks.outputs.any_changed == 'true'
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        if: steps.changed-notebooks.outputs.any_changed == 'true'
+        run: pip install -r requirements.txt
+
+      - name: Execute changed notebooks
+        if: steps.changed-notebooks.outputs.any_changed == 'true'
+        run: |
+          echo "Changed notebooks: ${{ steps.changed-notebooks.outputs.all_changed_files }}"
+          jupyter execute ${{ steps.changed-notebooks.outputs.all_changed_files }}
